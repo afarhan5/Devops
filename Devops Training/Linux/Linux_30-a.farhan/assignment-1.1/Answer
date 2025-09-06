@@ -1,0 +1,75 @@
+# 1. Check your current working directory
+pwd
+
+# 2. Create directory "linux" in your current directory
+mkdir linux
+
+# 3. Create directory "Assignment-01" inside "linux" directory
+mkdir linux/Assignment-01
+
+# 4. Create directory "dir1" inside "/tmp" without changing present directory
+mkdir /tmp/dir1
+
+# 5. Create directory tree /tmp/dir1/dir2/dir3 using a single command
+mkdir -p /tmp/dir1/dir2/dir3
+
+# 6. Delete "dir3"
+rmdir /tmp/dir1/dir2/dir3
+
+# 7. Create an empty file with your "first-name" in /tmp directory
+touch /tmp/first-name
+
+# 8. Add "This is my first line" into the file without using any editor
+echo "This is my first line" > /tmp/first-name
+
+# 9. Add "This is additional content" without overwriting the previous line
+echo "This is additional content" >> /tmp/first-name
+
+# 10. Create a new file with your "last-name" along with content
+echo "last-name is my last name" > /tmp/last-name
+
+# 11. Add "This is line at the beginning" into "last-name" file at the beginning (without editor)
+echo "This is line at the beginning" | cat - /tmp/last-name > temp && mv temp /tmp/last-name
+
+# 12. Add 8-10 more lines to the same file
+echo -e "Line 1\nLine 2\nLine 3\nLine 4\nLine 5\nLine 6\nLine 7\nLine 8\nLine 9\nLine 10" >> /tmp/last-name
+
+# 13. Show top 5 lines of the file
+head -n 5 /tmp/last-name
+
+# 14. Show bottom 2 lines of the file
+tail -n 2 /tmp/last-name
+
+# 15. Show only the 6th line of the file
+sed -n '6p' /tmp/last-name
+
+# 16. Show lines 3-8 of the file
+sed -n '3,8p' /tmp/last-name
+
+# 17. List all contents (including hidden files) of /tmp
+ls -a /tmp
+
+# 18. List only files in /tmp
+ls -l /tmp | grep -v '^d'
+
+# 19. List only directories in /tmp
+ls -d /tmp/*/
+
+# 20. Copy "last-name" to /tmp/dir2 with same name
+cp /tmp/last-name /tmp/dir2/
+
+# 21. Copy "last-name" to /tmp/dir2 with a different name
+cp /tmp/last-name /tmp/dir2/last-name.copy
+
+# 22. Change the name of the "first-name" file
+mv /tmp/first-name /tmp/new-first-name
+
+# 23. Move "last-name" file to /tmp/dir1
+mv /tmp/last-name /tmp/dir1/
+
+# 24. Clear the content of /tmp/dir2/last-name.copy without using sed
+> /tmp/dir2/last-name.copy
+
+# 25. Delete the file /tmp/dir2/last-name.copy
+rm /tmp/dir2/last-name.copy
+
