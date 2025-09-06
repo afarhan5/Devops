@@ -1,0 +1,10 @@
+---
+
+grafana_version: "11.6.1"
+grafana_port: 3000
+
+grafana_deb_url: "https://dl.grafana.com/oss/release/grafana_{{ grafana_version }}_amd64.deb"
+grafana_key_url: "https://apt.grafana.com/gpg.key"
+grafana_key_path: "/etc/apt/keyrings/grafana.gpg"
+grafana_sources_list: "/etc/apt/sources.list.d/grafana.list"
+grafana_repo_url: "https://apt.grafana.com"

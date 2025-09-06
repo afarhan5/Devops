@@ -1,0 +1,6 @@
+---
+- name: Configure Grafana using template
+  template:
+    src: grafana.ini.j2
+    dest: /etc/grafana/grafana.ini
+  notify: restart grafana

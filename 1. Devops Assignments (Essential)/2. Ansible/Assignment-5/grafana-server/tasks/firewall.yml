@@ -1,0 +1,11 @@
+---
+- name: Allow Grafana port through firewall (Ubuntu)
+  ufw:
+    rule: allow
+    port: "{{ grafana_port }}"
+    proto: tcp
+  when: ansible_os_family == "Debian"
+
+- name: Reload UFW (Ubuntu)
+  command: ufw reload
+  when: ansible_os_family == "Debian"

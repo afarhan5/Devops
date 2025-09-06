@@ -1,0 +1,92 @@
+---
+# Ubuntu Specific Installation
+- name: Install required packages (Ubuntu)
+  apt:
+    name:
+      - apt-transport-https
+      - software-properties-common
+      - wget
+    state: present
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Create keyring directory (Ubuntu)
+  file:
+    path: /etc/apt/keyrings/
+    state: directory
+    mode: '0755'
+  when: ansible_os_family == "Debian"
+
+- name: Add Grafana GPG key (Ubuntu)
+  shell: |
+    wget -q -O - {{ grafana_key_url }} | gpg --dearmor > {{ grafana_key_path }}
+  args:
+    creates: "{{ grafana_key_path }}"
+  when: ansible_os_family == "Debian"
+
+- name: Add Grafana repo (Ubuntu)
+  copy:
+    dest: "{{ grafana_sources_list }}"
+    content: |
+      deb [signed-by={{ grafana_key_path }}] {{ grafana_repo_url }} stable main
+      deb [signed-by={{ grafana_key_path }}] {{ grafana_repo_url }} beta main
+  when: ansible_os_family == "Debian"
+
+- name: Update APT cache (Ubuntu)
+  apt:
+    update_cache: yes
+  when: ansible_os_family == "Debian"
+
+- name: Download Grafana .deb file (Ubuntu)
+  get_url:
+    url: "{{ grafana_deb_url }}"
+    dest: "/tmp/grafana_{{ grafana_version }}.deb"
+  when: ansible_os_family == "Debian"
+
+- name: Install Grafana from .deb (Ubuntu)
+  apt:
+    deb: "/tmp/grafana_{{ grafana_version }}.deb"
+  when: ansible_os_family == "Debian"
+  notify: restart grafana
+
+- name: Enable and start Grafana (Ubuntu)
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes
+  when: ansible_os_family == "Debian"
+
+# CentOS Specific Installation
+- name: Add GPG key (CentOS)
+  get_url:
+    url: "https://rpm.grafana.com/gpg.key"
+    dest: /etc/pki/rpm-gpg/RPM-GPG-KEY-grafana
+  when: ansible_os_family == "RedHat"
+
+- name: Add Grafana yum repo (CentOS)
+  copy:
+    dest: /etc/yum.repos.d/grafana.repo
+    content: |
+      [grafana]
+      name=grafana
+      baseurl=https://rpm.grafana.com
+      repo_gpgcheck=1
+      enabled=1
+      gpgcheck=1
+      gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-grafana
+  when: ansible_os_family == "RedHat"
+
+- name: Install specific version of Grafana (CentOS)
+  yum:
+    name: "grafana-{{ grafana_version }}"
+    state: present
+  when: ansible_os_family == "RedHat"
+  notify: restart grafana
+
+- name: Enable and start Grafana (CentOS)
+  service:
+    name: grafana-server
+    state: started
+    enabled: yes
+  when: ansible_os_family == "RedHat"
+  

@@ -1,0 +1,67 @@
+---
+- name: Step 1 - Install NGINX and Apache
+  hosts: servers
+  become: true
+  serial: 1
+  strategy: linear
+
+  tasks:
+    - name: Install NGINX and Apache2
+      apt:
+        name: "{{ item }}"
+        state: present
+        update_cache: yes
+      loop:
+        - nginx
+        - apache2
+
+    - name: Copy Tanya and Heena HTML files
+      copy:
+        src: "files/{{ item }}"
+        dest: "/var/www/html/{{ item }}"
+      loop:
+        - tanya.html
+        - heena.html
+
+    - name: Create index.html pointing to Tanya (initially)
+      copy:
+        src: files/tanya.html
+        dest: /var/www/html/index.html
+
+    - name: Deploy static nginx config
+      copy:
+        src: files/nginx_default
+        dest: /etc/nginx/sites-available/default
+      notify: Restart nginx
+
+    - name: Setup logrotate to limit nginx logs to 1 GB
+      copy:
+        dest: /etc/logrotate.d/nginx
+        content: |
+          /var/log/nginx/*.log {
+              size 1G
+              rotate 5
+              compress
+              missingok
+              notifempty
+              create 0640 www-data adm
+              sharedscripts
+              postrotate
+                  [ -f /run/nginx.pid ] && kill -USR1 `cat /run/nginx.pid`
+              endscript
+          }
+
+    - name: Ensure services are running
+      service:
+        name: "{{ item }}"
+        state: started
+        enabled: yes
+      loop:
+        - apache2
+        - nginx
+
+  handlers:
+    - name: Restart nginx
+      service:
+        name: nginx
+        state: restarted

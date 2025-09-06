@@ -1,0 +1,19 @@
+---
+- name: install nginx
+  host: servers
+  become: yes
+  tasks:
+    - name: installing nginx
+      apt:
+        name: nginx
+        state: presnet
+
+    - name: start the nginx service
+      service:
+        name: nginx
+        state: stopped
+
+    - name: create a directory
+      file:
+        path: /home/software/new_dir
+        state: directory  

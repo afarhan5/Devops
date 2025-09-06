@@ -1,0 +1,8 @@
+---
+
+- name: Run system manager role
+  hosts: all
+  become: true
+
+  roles:
+    - system-manager
