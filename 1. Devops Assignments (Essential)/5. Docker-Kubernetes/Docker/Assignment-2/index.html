@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Assignment 2 - Multi Color</title>
+  <style>
+    body {
+      background: linear-gradient(45deg, #ff6b6b, #f7d794, #6a89cc, #78e08f);
+      height: 100vh;
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-family: 'Arial Black', Gadget, sans-serif;
+    }
+    h1 {
+      font-size: 3rem;
+      user-select: none;
+    }
+    .letter {
+      font-weight: 700;
+      padding: 0 3px;
+      animation: rainbow 5s linear infinite;
+      display: inline-block;
+    }
+    @keyframes rainbow {
+      0% { filter: hue-rotate(0deg); }
+      100% { filter: hue-rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <h1>
+    <span class="letter" style="color:#e74c3c;">T</span>
+    <span class="letter" style="color:#e67e22;">h</span>
+    <span class="letter" style="color:#f1c40f;">i</span>
+    <span class="letter" style="color:#2ecc71;">s</span>
+    &nbsp;
+    <span class="letter" style="color:#3498db;">i</span>
+    <span class="letter" style="color:#9b59b6;">s</span>
+    &nbsp;
+    <span class="letter" style="color:#1abc9c;">a</span>
+    <span class="letter" style="color:#34495e;">s</span>
+    <span class="letter" style="color:#e74c3c;">s</span>
+    <span class="letter" style="color:#e67e22;">i</span>
+    <span class="letter" style="color:#f1c40f;">g</span>
+    <span class="letter" style="color:#2ecc71;">n</span>
+    <span class="letter" style="color:#3498db;">m</span>
+    <span class="letter" style="color:#9b59b6;">e</span>
+    <span class="letter" style="color:#1abc9c;">n</span>
+    <span class="letter" style="color:#34495e;">t</span>
+    <span class="letter" style="color:#e74c3c;">-</span>
+    <span class="letter" style="color:#e67e22;">2</span>
+  </h1>
+</body>
+</html>
